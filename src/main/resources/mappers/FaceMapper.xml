@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chun.dao.FaceMapper">
+
+    <insert id="addUserFace" parameterType="UserFace">
+        insert into user_face_login values(null,#{userToken},#{userFaceBase64})
+    </insert>
+
+    <select id="getUserByAdmin" resultType="Admin">
+        select * from admin where username = #{userToken}
+    </select>
+
+    <select id="getUserByReader" resultType="ReaderInfo">
+        select * from reader_info where username = #{userToken}
+    </select>
+<!--    <select id="getUserByToken" resultType="UserFace">-->
+<!--        select * from user_face_login where userToken = #{userToken}-->
+<!--    </select>-->
+
+
+    <select id="getCountByToken" resultType="map">
+        select count(*) count from user_face_login where userToken = #{userToken}
+    </select>
+</mapper>

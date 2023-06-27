@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chun.dao.LendBookMapper">
+
+    <insert id="addLendList">
+        insert into lend_list
+            (bookId,readerId,lendDate)
+        values
+            (#{bookId},#{readerId},#{lendDate})
+    </insert>
+    <update id="updateList1">
+        update lend_list set
+                             backtype=#{backType},
+                             exceptRemarks=#{exceptRemarks},
+                             backDate=#{backDate}
+        where id=#{id}
+    </update>
+
+    <update id="updateList2">
+        update lend_list set
+                             backtype=#{backType},
+                             backDate=#{backDate}
+        where id=#{id}
+    </update>
+
+
+    <delete id="deleteLend">
+        delete from lend_list where id=#{id}
+    </delete>
+
+    <select id="selectAllBook" resultType="LendBook">
+        SELECT
+            lend_list.id,
+            lend_list.bookId,
+            lend_list.readerId,
+            lend_list.lendDate,
+            lend_list.backDate,
+            reader_info.readerNumber,
+            book_info.name,
+            lend_list.backType,
+            book_info.status,
+            book_info.number
+        FROM
+            lend_list
+                LEFT JOIN	book_info ON book_info.id=lend_list.bookId
+                LEFT JOIN reader_info ON lend_list.readerId=reader_info.id
+<!--        <where>-->
+<!--            <if test="reader_info.readerNumber!=null and reader_info.readerNumber!=''">-->
+<!--                reader_info.readerNumber=#{readerNumber},-->
+<!--            </if>-->
+<!--            <if test="book_info.name!=null and book_info.name!=''">-->
+<!--                book_info.name=#{name}-->
+<!--            </if>-->
+<!--            <if test="lend_list.backType!=null and lend_list.backType!=''">-->
+<!--                lend_list.backType=#{type}-->
+<!--            </if>-->
+<!--            <if test="status!=null and status!=''">-->
+<!--                book_info.status=#{status}-->
+<!--            </if>-->
+<!--        </where>-->
+    </select>
+    <select id="selectListById" resultType="LendBook">
+        select *  from  lend_list  where id=#{id}
+    </select>
+    <select id="selectBook" resultType="LendBook">
+
+    </select>
+
+
+    <update id="updateUserById">
+        update user
+        <set>
+            <if test="name != null and name.length()>0">name = #{name},</if>
+            <if test="age != null">age=#{age},</if>
+            <if test="phone != null">phone=#{phone},</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
